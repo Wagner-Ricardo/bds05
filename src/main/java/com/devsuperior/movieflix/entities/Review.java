@@ -1,7 +1,6 @@
 package com.devsuperior.movieflix.entities;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,33 +14,34 @@ import javax.persistence.Table;
 @Table(name = "tb_review")
 public class Review implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
 	private String text;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	@ManyToOne()
+	@ManyToOne
 	@JoinColumn(name = "movie_id")
-	private Movie movie;
+	private Movie movies;
 	
-	public Review() {
+	public Review(){
 		
 	}
 
+	
 
-	public Review(Long id, String text, User user, Movie movie) {
+	public Review(Long id, String text, User user, Movie movies) {
 		super();
 		this.id = id;
 		this.text = text;
 		this.user = user;
-		this.movie = movie;
+		this.movies = movies;
 	}
+
 
 
 	public Long getId() {
@@ -60,27 +60,33 @@ public class Review implements Serializable {
 		this.text = text;
 	}
 
-	
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public void setMovie(Movie movie) {
-		this.movie = movie;
-	}
-	
-
 	public User getUser() {
 		return user;
 	}
 
-	public Movie getMovie() {
-		return movie;
+	public void setUser(User user) {
+		this.user = user;
 	}
+	
+	
+	public Movie getMovie() {
+		return movies;
+	}
+
+
+
+	public void setMovie(Movie movies) {
+		this.movies = movies;
+	}
+
+
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -92,7 +98,12 @@ public class Review implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Review other = (Review) obj;
-		return Objects.equals(id, other.id);
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 	
 	

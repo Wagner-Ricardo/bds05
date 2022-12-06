@@ -11,9 +11,8 @@ import org.springframework.stereotype.Repository;
 import com.devsuperior.movieflix.entities.Genre;
 import com.devsuperior.movieflix.entities.Movie;
 
-@Repository	
-public interface MovieRepository extends JpaRepository<Movie, Long>{
-	
+@Repository
+public interface MovieRepository extends JpaRepository<Movie, Long> {
 
 	@Query("SELECT DISTINCT obj FROM Movie obj INNER JOIN obj.genre gens WHERE "
 			+ "(COALESCE(:genre) IS NULL OR gens IN :genre) "
@@ -23,5 +22,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long>{
 
 	@Query("SELECT obj FROM Movie obj JOIN FETCH obj.genre WHERE obj IN :movies")
 	List<Movie> findMoviesWithGenres(List<Movie> movies);
-
+	
+	
 }
